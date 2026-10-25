@@ -10,6 +10,23 @@ A cinematic, interactive 3D WebGL devotional experience celebrating Maa Shyama K
 
 ---
 
+## 📸 Sacred Visual Gallery & Experience Showcase
+
+### 1. Maa Shyama Kali Beachside Mahā-Āratī with Devotees
+Grand seaside 3D Aarti sanctuary featuring Goddess Kali surrounded by families of devotees chiming brass bells and offering lamps, with a glowing bonfire and Diwali sky fireworks.
+
+<p align="center">
+  <img src="./docs/images/maa_kali_devotees_aarti_sanctum.jpg" alt="Maa Kali Beachside Aarti with Devotees" width="100%" />
+</p>
+
+### 2. Divine Fiery Avatar & Full-Body Standing Darshan
+| Divine Fiery Avatar & Solar Halo | Viraat Swaroop: Full Standing Posture (Head to Feet) |
+| :---: | :---: |
+| <img src="./docs/images/maa_kali_fiery_avatar.jpg" alt="Maa Kali Fiery Avatar" width="380" /> | <img src="./docs/images/kali_full_body_standing.jpg" alt="Maa Kali Full Body Standing" width="380" /> |
+| *Blazing solar fire halo, Trinetra, Khadga sword, Trishula & clay diyas* | *Complete head-to-toe darshan from golden Mukut to Lotus Feet on Lord Shiva* |
+
+---
+
 ## ✨ Features
 
 - **🕉️ 3D Real-Time WebGL Darshan**: Real-time particle system and volumetric illumination simulating sacred diyas, aura fields, and cosmic energy.
