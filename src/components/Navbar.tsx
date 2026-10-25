@@ -31,11 +31,12 @@ export const Navbar: React.FC<NavbarProps> = ({ isMuted, onToggleMute }) => {
   };
 
   const navLinks = [
-    { href: '#hero', label: language === 'hi' ? 'होम' : 'Home' },
-    { href: '#about', label: language === 'hi' ? 'माँ काली परिचय' : 'About' },
+    { href: '#hero', label: language === 'hi' ? '360° दर्शन' : '360° Darshan' },
+    { href: '#about', label: language === 'hi' ? 'पूर्ण स्वरूप' : 'Sacred Form' },
     { href: '#aarti', label: language === 'hi' ? 'आरती व मंत्र' : 'Aarti' },
     { href: '#temples', label: language === 'hi' ? 'प्रसिद्ध तीर्थ' : 'Temples' },
-    { href: '#prayers', label: language === 'hi' ? 'प्रार्थना वेदी' : 'Prayer Wall' }
+    { href: '#gallery', label: language === 'hi' ? 'दर्शन गैलरी' : 'Gallery' },
+    { href: '#diya', label: language === 'hi' ? 'दीप व प्रार्थना' : 'Light a Diya' }
   ];
 
   return (

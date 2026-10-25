@@ -9,6 +9,7 @@ import { HeroOverlay } from './components/HeroOverlay';
 import { AboutSection } from './components/AboutSection';
 import { AartiSection } from './components/AartiSection';
 import { TemplesSection } from './components/TemplesSection';
+import { GallerySection } from './components/GallerySection';
 import { VirtualDiyaSection } from './components/VirtualDiyaSection';
 import { Footer } from './components/Footer';
 
@@ -17,7 +18,7 @@ const AppContent: React.FC = () => {
   const [sceneManager, setSceneManager] = useState<SceneManager | null>(null);
 
   const [hasEntered, setHasEntered] = useState<boolean>(false);
-  const [currentPreset, setCurrentPreset] = useState<CameraPreset>('courtyard');
+  const [currentPreset, setCurrentPreset] = useState<CameraPreset>('full');
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
   // Initialize SceneManager once canvas mounts
@@ -39,7 +40,7 @@ const AppContent: React.FC = () => {
     spatialAudio.playBell();
 
     if (sceneManager) {
-      sceneManager.switchPreset('courtyard');
+      sceneManager.switchPreset('full');
     }
   };
 
@@ -126,10 +127,13 @@ const AppContent: React.FC = () => {
             {/* c) Famous Temples (Kalighat, Dakshineswar, Kalka Ji) */}
             <TemplesSection />
 
-            {/* d) Diya aur Prayer Wall (Floating Diya + Prayer List) */}
+            {/* d) Divine Darshan Gallery */}
+            <GallerySection />
+
+            {/* e) Diya aur Prayer Wall (Floating Diya + Prayer List) */}
             <VirtualDiyaSection />
 
-            {/* e) Footer */}
+            {/* f) Footer */}
             <Footer />
           </div>
         </>

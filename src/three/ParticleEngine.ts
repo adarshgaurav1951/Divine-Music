@@ -21,15 +21,21 @@ export class ParticleEngine {
   private maxSparks = 3000;
   private activeSparks: ParticleSpark[] = [];
 
-  // Floating Sky Embers
+  // Floating Sky Embers & Divine Golden Motes
   private emberGeom: THREE.BufferGeometry;
   private emberPoints: THREE.Points;
   private emberCount = 350;
   private emberPositions: Float32Array;
   private emberVelocities: Float32Array;
 
-  // Bonfire Emitter position (strictly on the burning logs)
-  private bonfireEmitter: THREE.Vector3 = new THREE.Vector3(0, -1.9, 0.3);
+  // Sacred Pushpanjali (Flower Petals: Red Hibiscus & Golden Marigold)
+  private petalGeom: THREE.BufferGeometry;
+  private petalPoints: THREE.Points;
+  private petalCount = 200;
+  private petalPositions: Float32Array;
+  private petalVelocities: Float32Array;
+  private petalColors: Float32Array;
+
   private isEmberBoost: boolean = false;
 
   public setEmberBoost(boost: boolean) {
@@ -38,6 +44,9 @@ export class ParticleEngine {
 
   constructor() {
     this.group = new THREE.Group();
+
+    const sparkTexture = this.createSparkTexture();
+    const petalTexture = this.createPetalTexture();
 
     // 1. Sparklers & Fireworks Points System
     this.sparkPositions = new Float32Array(this.maxSparks * 3);
@@ -49,9 +58,8 @@ export class ParticleEngine {
     this.sparkGeom.setAttribute('color', new THREE.BufferAttribute(this.sparkColors, 3));
     this.sparkGeom.setAttribute('size', new THREE.BufferAttribute(this.sparkSizes, 1));
 
-    const sparkTexture = this.createSparkTexture();
     const sparkMaterial = new THREE.PointsMaterial({
-      size: 0.32,
+      size: 0.35,
       map: sparkTexture,
       transparent: true,
       blending: THREE.AdditiveBlending,
@@ -62,106 +70,173 @@ export class ParticleEngine {
     this.sparkPoints = new THREE.Points(this.sparkGeom, sparkMaterial);
     this.group.add(this.sparkPoints);
 
-    // 2. Subtle atmospheric floating twilight motes (dispersed in background/sky)
+    // 2. Continuous floating golden twilight motes (dispersed around 360 space)
     this.emberPositions = new Float32Array(this.emberCount * 3);
     this.emberVelocities = new Float32Array(this.emberCount * 3);
 
     for (let i = 0; i < this.emberCount; i++) {
-      // Disperse across sky and sides, keeping center open
-      const side = Math.random() > 0.5 ? 1 : -1;
-      const x = side * (2.5 + Math.random() * 6.5);
-      const y = 0.5 + Math.random() * 4.5;
-      const z = (Math.random() - 0.5) * 4;
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 3.0 + Math.random() * 12.0;
+      const x = Math.sin(angle) * radius;
+      const z = Math.cos(angle) * radius;
+      const y = -4.0 + Math.random() * 11.0;
 
       this.emberPositions[i * 3 + 0] = x;
       this.emberPositions[i * 3 + 1] = y;
       this.emberPositions[i * 3 + 2] = z;
 
-      this.emberVelocities[i * 3 + 0] = (Math.random() - 0.5) * 0.015;
-      this.emberVelocities[i * 3 + 1] = 0.01 + Math.random() * 0.02;
-      this.emberVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.015;
+      this.emberVelocities[i * 3 + 0] = (Math.random() - 0.5) * 0.012;
+      this.emberVelocities[i * 3 + 1] = 0.008 + Math.random() * 0.018;
+      this.emberVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.012;
     }
 
     this.emberGeom = new THREE.BufferGeometry();
     this.emberGeom.setAttribute('position', new THREE.BufferAttribute(this.emberPositions, 3));
 
     const emberMaterial = new THREE.PointsMaterial({
-      color: 0xffb74d,
-      size: 0.12,
+      color: 0xffaa33,
+      size: 0.16,
       map: sparkTexture,
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      opacity: 0.45
+      opacity: 0.55
     });
 
     this.emberPoints = new THREE.Points(this.emberGeom, emberMaterial);
     this.group.add(this.emberPoints);
+
+    // 3. Sacred Pushpanjali Shower (Falling Hibiscus & Marigold Petals)
+    this.petalPositions = new Float32Array(this.petalCount * 3);
+    this.petalVelocities = new Float32Array(this.petalCount * 3);
+    this.petalColors = new Float32Array(this.petalCount * 3);
+
+    const hibiscusColor = new THREE.Color(0xdc143c);
+    const marigoldColor = new THREE.Color(0xffa500);
+    const lotusColor = new THREE.Color(0xff69b4);
+
+    for (let i = 0; i < this.petalCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const r = Math.random() * 5.5;
+      this.petalPositions[i * 3 + 0] = Math.sin(angle) * r;
+      this.petalPositions[i * 3 + 1] = -5.5 + Math.random() * 12.5;
+      this.petalPositions[i * 3 + 2] = Math.cos(angle) * r;
+
+      this.petalVelocities[i * 3 + 0] = (Math.random() - 0.5) * 0.008;
+      this.petalVelocities[i * 3 + 1] = -0.015 - Math.random() * 0.02; // gently falling
+      this.petalVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.008;
+
+      const pick = Math.random();
+      const col = pick < 0.55 ? hibiscusColor : pick < 0.85 ? marigoldColor : lotusColor;
+      this.petalColors[i * 3 + 0] = col.r;
+      this.petalColors[i * 3 + 1] = col.g;
+      this.petalColors[i * 3 + 2] = col.b;
+    }
+
+    this.petalGeom = new THREE.BufferGeometry();
+    this.petalGeom.setAttribute('position', new THREE.BufferAttribute(this.petalPositions, 3));
+    this.petalGeom.setAttribute('color', new THREE.BufferAttribute(this.petalColors, 3));
+
+    const petalMaterial = new THREE.PointsMaterial({
+      size: 0.28,
+      map: petalTexture,
+      transparent: true,
+      depthWrite: false,
+      vertexColors: true,
+      opacity: 0.85
+    });
+
+    this.petalPoints = new THREE.Points(this.petalGeom, petalMaterial);
+    this.group.add(this.petalPoints);
   }
 
+  /**
+   * Generates a circular radial glow texture for sparks and embers
+   */
   private createSparkTexture(): THREE.Texture {
     const canvas = document.createElement('canvas');
     canvas.width = 64;
     canvas.height = 64;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return new THREE.Texture();
 
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.25, 'rgba(255, 215, 90, 0.9)');
-    grad.addColorStop(0.6, 'rgba(255, 100, 15, 0.35)');
-    grad.addColorStop(1, 'rgba(255, 50, 0, 0)');
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
+    grad.addColorStop(0.2, 'rgba(255, 220, 150, 0.9)');
+    grad.addColorStop(0.5, 'rgba(255, 130, 40, 0.4)');
+    grad.addColorStop(1.0, 'rgba(255, 60, 0, 0)');
 
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 64, 64);
 
     const texture = new THREE.CanvasTexture(canvas);
-    texture.needsUpdate = true;
     return texture;
   }
 
   /**
-   * Gentle, natural bonfire embers that rise softly from the fire logs
-   * and die out BEFORE reaching Maa Kali's statue body.
+   * Generates a soft petal-shaped alpha texture for flower petals
    */
-  public emitBonfireEmbers(count: number = 2) {
+  private createPetalTexture(): THREE.Texture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return new THREE.Texture();
+
+    ctx.save();
+    ctx.translate(32, 32);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 18, 28, 0.3, 0, Math.PI * 2);
+    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 28);
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
+    grad.addColorStop(0.7, 'rgba(255, 255, 255, 0.85)');
+    grad.addColorStop(1.0, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.restore();
+
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  /**
+   * Emits golden embers around the altar base
+   */
+  private emitAltarEmbers(count: number) {
     for (let i = 0; i < count; i++) {
       if (this.activeSparks.length >= this.maxSparks) break;
 
       const angle = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 0.45;
-      const speed = 1.0 + Math.random() * 1.5;
-
-      const origin = new THREE.Vector3(
-        this.bonfireEmitter.x + Math.cos(angle) * radius,
-        this.bonfireEmitter.y + Math.random() * 0.2,
-        this.bonfireEmitter.z + Math.sin(angle) * radius
+      const radius = 1.0 + Math.random() * 3.0;
+      const pos = new THREE.Vector3(
+        Math.sin(angle) * radius,
+        -5.2 + Math.random() * 0.4,
+        Math.cos(angle) * radius
       );
 
       const vel = new THREE.Vector3(
-        (Math.random() - 0.5) * 0.35,
-        speed,
-        (Math.random() - 0.5) * 0.25
+        (Math.random() - 0.5) * 0.4,
+        0.8 + Math.random() * 1.4,
+        (Math.random() - 0.5) * 0.4
       );
 
-      // Warm amber fire color
       const color = new THREE.Color().setHSL(0.08 + Math.random() * 0.05, 1.0, 0.7);
 
       this.activeSparks.push({
-        position: origin,
+        position: pos,
         velocity: vel,
         color: color,
-        size: 0.16 + Math.random() * 0.16,
+        size: 0.18 + Math.random() * 0.16,
         life: 0,
-        maxLife: 0.7 + Math.random() * 0.5 // Fades out before rising high
+        maxLife: 1.2 + Math.random() * 0.8
       });
     }
   }
 
   /**
-   * Gentle visual sparkler at clicked point (NO LOUD NOISE, purely subtle visual delight)
+   * Interactive Click/Tap Burst
    */
-  public triggerInteractiveBurst(position: THREE.Vector3, count: number = 35) {
-    const hueBase = 0.08 + Math.random() * 0.12; // warm festive golden tones
+  public triggerInteractiveBurst(point: THREE.Vector3, count: number = 35) {
+    const hue = Math.random() * 0.15; // Golden-orange-red sparks
     for (let i = 0; i < count; i++) {
       if (this.activeSparks.length >= this.maxSparks) break;
 
@@ -169,7 +244,7 @@ export class ParticleEngine {
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const speed = 1.5 + Math.random() * 3.5;
+      const speed = 1.8 + Math.random() * 3.8;
 
       const dir = new THREE.Vector3(
         Math.sin(phi) * Math.cos(theta),
@@ -177,37 +252,33 @@ export class ParticleEngine {
         Math.cos(phi)
       ).multiplyScalar(speed);
 
-      const color = new THREE.Color().setHSL((hueBase + Math.random() * 0.08) % 1.0, 1.0, 0.85);
+      const color = new THREE.Color().setHSL(hue, 1.0, 0.7 + Math.random() * 0.25);
 
       this.activeSparks.push({
-        position: position.clone(),
+        position: point.clone(),
         velocity: dir,
         color: color,
-        size: 0.22 + Math.random() * 0.18,
+        size: 0.25 + Math.random() * 0.2,
         life: 0,
-        maxLife: 0.6 + Math.random() * 0.4
+        maxLife: 0.6 + Math.random() * 0.5
       });
     }
   }
 
   /**
-   * Burst festive crackers in the SKY beside Maa Kali (left or right background)
+   * Sky fireworks burst in the temple courtyard sky
    */
-  public triggerSkyFirework(side: 'left' | 'right' | 'random' = 'random') {
-    let chosenSide = side;
-    if (chosenSide === 'random') {
-      chosenSide = Math.random() > 0.5 ? 'left' : 'right';
-    }
+  public triggerSkyFirework(side: 'left' | 'right' | 'center' = 'center') {
+    let posX = 0;
+    if (side === 'left') posX = -6.0 - Math.random() * 3.0;
+    else if (side === 'right') posX = 6.0 + Math.random() * 3.0;
+    else posX = (Math.random() - 0.5) * 6.0;
 
-    const posX = chosenSide === 'left'
-      ? -4.8 - Math.random() * 2.2
-      : 4.8 + Math.random() * 2.2;
-
-    const posY = 2.4 + Math.random() * 1.8;
-    const posZ = -0.5 + (Math.random() - 0.5) * 1.0;
+    const posY = 5.0 + Math.random() * 3.0;
+    const posZ = -6.0 + (Math.random() - 0.5) * 4.0;
 
     const center = new THREE.Vector3(posX, posY, posZ);
-    const count = 90;
+    const count = 110;
     const hue = Math.random();
 
     for (let i = 0; i < count; i++) {
@@ -217,7 +288,7 @@ export class ParticleEngine {
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const speed = 2.5 + Math.random() * 5.0;
+      const speed = 2.5 + Math.random() * 5.5;
 
       const dir = new THREE.Vector3(
         Math.sin(phi) * Math.cos(theta),
@@ -225,7 +296,7 @@ export class ParticleEngine {
         Math.cos(phi)
       ).multiplyScalar(speed);
 
-      const color = new THREE.Color().setHSL((hue + Math.random() * 0.12) % 1.0, 1.0, 0.8);
+      const color = new THREE.Color().setHSL((hue + Math.random() * 0.1) % 1.0, 1.0, 0.8);
 
       this.activeSparks.push({
         position: center.clone(),
@@ -239,11 +310,11 @@ export class ParticleEngine {
   }
 
   public update(delta: number) {
-    // 1. Emit subtle bonfire embers (boosted during Aarti)
-    this.emitBonfireEmbers(this.isEmberBoost ? 7 : 2);
+    // 1. Emit subtle altar base embers
+    this.emitAltarEmbers(this.isEmberBoost ? 6 : 2);
 
-    // 2. Physics & Particle Life Update
-    const gravity = new THREE.Vector3(0, -3.0, 0);
+    // 2. Physics & Spark Life Update
+    const gravity = new THREE.Vector3(0, -2.5, 0);
     const aliveSparks: ParticleSpark[] = [];
 
     let pIdx = 0;
@@ -256,10 +327,10 @@ export class ParticleEngine {
         spark.position.addScaledVector(spark.velocity, delta);
 
         const lifeRatio = Math.max(0, 1 - (spark.life / spark.maxLife));
-        const alpha = Math.sin(lifeRatio * Math.PI * 0.5); // smooth fade-out
+        const alpha = Math.sin(lifeRatio * Math.PI * 0.5);
 
         this.sparkPositions[pIdx * 3 + 0] = spark.position.x;
-        this.sparkPositions[pIdx * 3 + 1] = spark.position.y; // NO clamping at 0!
+        this.sparkPositions[pIdx * 3 + 1] = spark.position.y;
         this.sparkPositions[pIdx * 3 + 2] = spark.position.z;
 
         this.sparkColors[pIdx * 3 + 0] = spark.color.r * alpha;
@@ -275,7 +346,6 @@ export class ParticleEngine {
 
     this.activeSparks = aliveSparks;
 
-    // Zero out unused slots
     for (let i = pIdx; i < this.maxSparks; i++) {
       this.sparkSizes[i] = 0;
     }
@@ -284,22 +354,44 @@ export class ParticleEngine {
     this.sparkGeom.attributes.color.needsUpdate = true;
     this.sparkGeom.attributes.size.needsUpdate = true;
 
-    // 3. Update continuous floating sky motes
-    const posAttr = this.emberGeom.attributes.position as THREE.BufferAttribute;
-    const pos = posAttr.array as Float32Array;
+    // 3. Update continuous floating golden sky motes
+    const emberPosAttr = this.emberGeom.attributes.position as THREE.BufferAttribute;
+    const emberPos = emberPosAttr.array as Float32Array;
 
     for (let i = 0; i < this.emberCount; i++) {
-      pos[i * 3 + 0] += this.emberVelocities[i * 3 + 0];
-      pos[i * 3 + 1] += this.emberVelocities[i * 3 + 1];
-      pos[i * 3 + 2] += this.emberVelocities[i * 3 + 2];
+      emberPos[i * 3 + 0] += this.emberVelocities[i * 3 + 0];
+      emberPos[i * 3 + 1] += this.emberVelocities[i * 3 + 1];
+      emberPos[i * 3 + 2] += this.emberVelocities[i * 3 + 2];
 
-      // Respawn if drifted too high
-      if (pos[i * 3 + 1] > 5.5) {
-        pos[i * 3 + 1] = 0.5;
-        const side = Math.random() > 0.5 ? 1 : -1;
-        pos[i * 3 + 0] = side * (2.5 + Math.random() * 6.5);
+      if (emberPos[i * 3 + 1] > 7.0) {
+        emberPos[i * 3 + 1] = -5.0;
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 3.0 + Math.random() * 12.0;
+        emberPos[i * 3 + 0] = Math.sin(angle) * radius;
+        emberPos[i * 3 + 2] = Math.cos(angle) * radius;
       }
     }
-    posAttr.needsUpdate = true;
+    emberPosAttr.needsUpdate = true;
+
+    // 4. Update falling Pushpanjali Flower Petals
+    const petalPosAttr = this.petalGeom.attributes.position as THREE.BufferAttribute;
+    const petalPos = petalPosAttr.array as Float32Array;
+
+    for (let i = 0; i < this.petalCount; i++) {
+      // Gentle floating sway
+      petalPos[i * 3 + 0] += this.petalVelocities[i * 3 + 0] + Math.sin(petalPos[i * 3 + 1] * 2.0 + i) * 0.005;
+      petalPos[i * 3 + 1] += this.petalVelocities[i * 3 + 1];
+      petalPos[i * 3 + 2] += this.petalVelocities[i * 3 + 2] + Math.cos(petalPos[i * 3 + 1] * 2.0 + i) * 0.005;
+
+      // Respawn at the top above Maa Kali's crown
+      if (petalPos[i * 3 + 1] < -5.6) {
+        petalPos[i * 3 + 1] = 6.8 + Math.random() * 1.5;
+        const angle = Math.random() * Math.PI * 2;
+        const r = Math.random() * 5.0;
+        petalPos[i * 3 + 0] = Math.sin(angle) * r;
+        petalPos[i * 3 + 2] = Math.cos(angle) * r;
+      }
+    }
+    petalPosAttr.needsUpdate = true;
   }
 }

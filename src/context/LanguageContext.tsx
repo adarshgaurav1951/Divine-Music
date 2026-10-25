@@ -23,8 +23,8 @@ export const translations: Translations = {
 
   // Hero
   heroSubtitle: {
-    en: 'Sacred 3D Open-Air Beach Bonfire & Diwali Darshan',
-    hi: 'पवित्र 3D समुद्र तट महायज्ञ, महाकाली दर्शन एवं दीपावली'
+    en: 'Sacred Beachside Aarti & 360° Divine Maa Kali Darshan',
+    hi: 'पवित्र समुद्र तट महाआरती, भक्तगण एवं माँ काली 360° दिव्य दर्शन'
   },
   heroTitle: {
     en: 'DIVINE MAA SHYAMA KALI',
@@ -38,12 +38,20 @@ export const translations: Translations = {
     en: 'Light a Virtual Diya',
     hi: 'पवित्र दिया जलाएं'
   },
-  statueView: { en: 'Maa Kali Statue', hi: 'माँ काली प्रतिमा' },
-  bonfireView: { en: 'Beach & Bonfire', hi: 'तट एवं महायज्ञ' },
-  panoramaView: { en: 'Sunset Panorama', hi: 'संध्या विहंगम दृश्य' },
+  fullAartiView: { en: 'Full Aarti & Devotees', hi: 'महाआरती एवं भक्तगण' },
+  kaliDarshanView: { en: 'Maa Kali Darshan', hi: 'माँ काली दर्शन' },
+  leftDevoteesView: { en: 'Left Devotees', hi: 'वाम भक्त परिवार' },
+  rightDevoteesView: { en: 'Right Devotees', hi: 'दक्षिण भक्त परिवार' },
+  parikramaView: { en: '360° Parikrama Orbit', hi: '360° परिक्रमा दर्शन' },
+  panoramaView: { en: '360° Sunset Panorama', hi: '360° संध्या विहंगम' },
+  fullBodyView: { en: 'Full Aarti & Devotees', hi: 'महाआरती एवं भक्तगण' },
+  statueView: { en: 'Maa Kali Darshan', hi: 'माँ काली दर्शन' },
+  feetView: { en: 'Sacred Diya Altar', hi: 'पवित्र दीप वेदी' },
+  mukutView: { en: 'Mukut & Fiery Halo', hi: 'मुकुट एवं अग्नि प्रभा' },
+  bonfireView: { en: 'Full Aarti View', hi: 'महाआरती दृश्य' },
   heroHint: {
-    en: '✨ Drag to orbit view • Tap sky for festive sparklers • Scroll down to explore',
-    hi: '✨ दृश्य घुमाने के लिए ड्रैग करें • आतिशबाज़ी के लिए आकाश छुएं • नीचे स्क्रॉल करें'
+    en: '✨ Drag for 360° view • Scroll/pinch to zoom • Tap Aarti to hear bells & Shankh',
+    hi: '✨ 360° देखने के लिए ड्रैग करें • ज़ूम के लिए स्क्रॉल/पिंच करें • आरती का आनंद लें'
   },
 
   // About Section

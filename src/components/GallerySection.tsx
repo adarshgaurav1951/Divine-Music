@@ -12,45 +12,45 @@ interface GalleryItem {
 const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 'g-1',
-    title: 'Maa Shyama Kali Open-Air Bonfire',
-    category: 'forms',
-    image: '/textures/kali_beach_bonfire.jpg',
-    desc: 'Majestic 3D darshan of Goddess Kali on the twilight beach with sacred bonfire flames.'
+    title: 'Maa Kali Beachside Mahā-Āratī with Devotees',
+    category: 'rituals',
+    image: '/textures/maa_kali_devotees_aarti_sanctum.jpg',
+    desc: 'Grand seaside celebration where families gather on the beach to offer deepa aarti and ring sacred bells to Mother Kali.'
   },
   {
     id: 'g-2',
-    title: 'Bhavatarini Maa of Dakshineswar',
-    category: 'temples',
-    image: '/textures/kali_beach_bonfire.jpg',
-    desc: 'The sacred deity of Dakshineswar who blessed Sri Ramakrishna Paramahamsa with eternal vision.'
+    title: 'Maa Kali Fiery Avatar & Flaming Halo',
+    category: 'forms',
+    image: '/textures/maa_kali_fiery_avatar.jpg',
+    desc: 'Fierce and glorious manifestation with radiant solar fire halo, Trinetra, sacred sword, trident, and glowing clay diyas.'
   },
   {
     id: 'g-3',
-    title: 'Midnight Shyama Puja Aarti',
+    title: 'Devotees Ringing Temple Bells & Offering Lamps',
     category: 'rituals',
-    image: '/textures/kali_beach_bonfire.jpg',
-    desc: 'Diwali night Aarti where thousands of earthen lamps illuminate the sacred temple premises.'
+    image: '/textures/devotees_left.png',
+    desc: 'Devout family offering pradeep lamps and chiming the sacred brass bell in joyous reverence.'
   },
   {
     id: 'g-4',
-    title: 'Mahakali Ten-Armed Cosmic Form',
-    category: 'forms',
-    image: '/textures/kali_beach_bonfire.jpg',
-    desc: 'The primordial form holding the weapons of all the gods to slay the demons of ego and ignorance.'
+    title: 'Sacred Prayers & Diya Thali Worship',
+    category: 'rituals',
+    image: '/textures/devotees_right.png',
+    desc: 'Devotees standing with hands folded in prayer and illuminating the twilight shoreline with brass lamps.'
   },
   {
     id: 'g-5',
-    title: 'Devotees Offering Deepam at Shore',
-    category: 'rituals',
-    image: '/textures/kali_beach_bonfire.jpg',
-    desc: 'Devotees bowing in prayer and floating lamps onto the sacred waters of devotion.'
+    title: '360° Illuminated Temple Courtyard & Sky Fireworks',
+    category: 'temples',
+    image: '/textures/temple_sanctum_360_panorama.jpg',
+    desc: 'Diwali night panoramic spectacle with thousands of glowing brass diyas, ancient carved stone columns, and festive fireworks.'
   },
   {
     id: 'g-6',
-    title: 'Sacred Kalighat Shakti Peetha',
-    category: 'temples',
-    image: '/textures/kali_beach_bonfire.jpg',
-    desc: 'The ancient Peetha on the banks of Adi Ganga revered for over two millennia.'
+    title: 'Maa Kali Viraat Swaroop (Full Body Standing)',
+    category: 'forms',
+    image: '/textures/kali_full_body_standing.jpg',
+    desc: 'Majestic full-body standing darshan of Goddess Kali from Her golden crown to Her sacred lotus feet upon Lord Shiva.'
   }
 ];
 
